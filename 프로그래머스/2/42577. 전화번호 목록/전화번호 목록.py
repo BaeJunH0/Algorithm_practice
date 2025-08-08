@@ -1,7 +1,12 @@
 def solution(phone_book):
-    phone_book.sort()
+    dic = {}
+    for i in phone_book:
+        dic[i] = 1
     
-    for i in range(0, len(phone_book) - 1):
-        if phone_book[i] == phone_book[i+1][:len(phone_book[i])]:
-            return False
+    for i in phone_book:
+        temp = ''
+        for j in i[:-1]:
+            temp += j
+            if temp in dic.keys():
+                return False
     return True
