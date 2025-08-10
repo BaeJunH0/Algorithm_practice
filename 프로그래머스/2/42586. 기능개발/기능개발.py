@@ -1,15 +1,16 @@
 def solution(progresses, speeds):
     answer = []
-    count = 0
-    length = len(speeds)
-    while count < length:
-        for i in range(len(speeds)):
+    cur = 0
+    
+    while cur < len(progresses):
+        latest = cur
+        
+        for i in range(len(progresses)):
             progresses[i] += speeds[i]
+        while cur < len(progresses) and progresses[cur] >= 100:
+            cur += 1
+        
+        if cur != latest:
+            answer.append(cur - latest)
             
-        temp = 0
-        while count < length and progresses[count] >= 100:
-            count += 1
-            temp += 1
-        if temp != 0:
-            answer.append(temp)
     return answer
