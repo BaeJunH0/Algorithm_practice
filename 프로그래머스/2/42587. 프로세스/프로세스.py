@@ -1,29 +1,24 @@
+from collections import deque
+
 def solution(priorities, location):
-    answer = 0
-    if len(priorities) == 1:
-        return 1
+    priority_queue = deque(priorities)
+    location_queue = deque([x for x in range(len(priorities))])
     
+    count = 0
     while True:
-        # dequeue
-        target = priorities[0]
-        priorities = priorities[1:]
+        temp_p = priority_queue.popleft()
+        temp_l = location_queue.popleft()
         
-        # 프로세스 실행 판정
-        if len(priorities) == 0:
-            answer += 1
-            break
-        if target >= max(priorities):
-            answer += 1
-            # 실행한 프로세스 = location에 해당하면 종료
-            if location == 0:
+        checksum = 0
+        for i in priority_queue:
+            if temp_p < i:
+                checksum = 1
                 break
+                
+        if checksum == 1:
+            priority_queue.append(temp_p)
+            location_queue.append(temp_l)
         else:
-            priorities.append(target)
-        
-        # Location 조정
-        if location == 0:
-            location = len(priorities) - 1
-        else:
-            location -= 1
-            
-    return answer
+            count += 1
+            if temp_l == location:
+                return count
