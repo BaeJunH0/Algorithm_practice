@@ -1,28 +1,25 @@
 def solution(genres, plays):
     answer = []
-    dic = {}
-    for i in range(len(plays)):
-        if genres[i] not in dic.keys():
-            dic[genres[i]] =  plays[i]
+    
+    # 1. 장르 순서 정하기
+    genre_plays = {}
+    for i in range(len(genres)):
+        if genres[i] not in genre_plays:
+            genre_plays[genres[i]] = plays[i]
         else:
-            dic[genres[i]] += plays[i]
+            genre_plays[genres[i]] += plays[i]
     
-    gs = []
-    values = list(dic.values())
-    values.sort(reverse = True)
+    sorted_genre_plays = sorted(genre_plays.items(), key = lambda x : x[1], reverse = True)
     
-    for i in values:
-        for j in dic.keys():
-            if i == dic[j]:
-                gs.append(j)
+    sorted_genres = [x[0] for x in sorted_genre_plays]
     
-    for i in gs:
-        arr = []
-        for j in range(len(plays)):
-            if i == genres[j]:
-                arr.append(j)
-        arr.sort(reverse = True, key=lambda x:plays[x])
-        arr = arr[:2]
-        answer += arr
+    # 2. 조회 수에 따른 순서 정하기
+    for i in sorted_genres:
+        temp = []
+        for j in range(len(genres)):
+            if genres[j] == i:
+                temp.append(j)
+        temp.sort(key = lambda x : plays[x], reverse = True)
+        answer += temp[:2]
     
     return answer
