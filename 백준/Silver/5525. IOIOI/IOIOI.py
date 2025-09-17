@@ -7,16 +7,20 @@ Pn = 'I' + 'OI' * N
 
 seq = int(input())
 string = input().rstrip()
+size = len(Pn)
 
 answer = 0
-for i in range(0, seq - len(Pn) + 1):
-    count = 0
-    for j in range(0, len(Pn)):
-        if string[i + j] != Pn[j]:
-            break
+count = 0
+i = 0
+while i < seq - 1:
+    if string[i:i+3] == "IOI":
+        i += 2
         count += 1
-    
-    if count == len(Pn):
-        answer += 1
+        if count == N:
+            answer += 1
+            count -= 1
+    else:
+        i += 1
+        count = 0
 
 print(answer)
