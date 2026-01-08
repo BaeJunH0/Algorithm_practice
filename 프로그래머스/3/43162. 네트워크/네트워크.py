@@ -1,21 +1,33 @@
 from collections import deque
 
 def solution(n, computers):
-    answer = 0
-    queue = deque()
-    visited = [1] * n
+    target = []
+    
+    adj_list = [[] for _ in range(n)]
     
     for i in range(n):
-        if visited[i] == 0:
+        for j in range(0, i + 1):
+            if i != j and computers[i][j] == 1:
+                adj_list[i].append(j)
+                adj_list[j].append(i)
+    
+    visited = [0] * n
+    count = 0
+    for i in range(n):
+        if visited[i] == 1:
             continue
-        else:
-            queue.append(i)
-        while len(queue) != 0:
+        
+        queue = deque()
+        queue.append(i)
+        
+        while queue:
             target = queue.popleft()
-            visited[target] = 0
-
-            for j in range(n):
-                if visited[j] == 1 and computers[target][j] == 1:
-                    queue.append(j)
-        answer += 1
-    return answer
+            
+            for t in adj_list[target]:
+                if visited[t] == 0:
+                    visited[t] = 1
+                    queue.append(t)
+        count += 1
+    
+    return count
+            
