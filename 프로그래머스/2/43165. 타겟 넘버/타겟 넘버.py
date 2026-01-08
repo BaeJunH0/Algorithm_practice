@@ -1,21 +1,18 @@
-import sys
-sys.setrecursionlimit(1000000)
+from collections import deque
 
-answer = 0
-def find(numbers, target, seq):
-    if len(numbers) - 1 < seq:
-        global answer
-        if sum(numbers) == target:
-            answer += 1
-        return
-    
-    find(numbers, target, seq + 1)
-    
-    numbers[seq] *= -1
-    find(numbers, target, seq + 1)
-    
 def solution(numbers, target):
-    global answer
-    find(numbers, target, 0)
+    answer = 0
+    arr = [numbers[0], -numbers[0]]
+    
+    for i in range(1, len(numbers)):
+        temp = []
+        for value in arr:
+            temp.append(value + numbers[i])
+            temp.append(value - numbers[i])
+        arr = temp
+    
+    for i in arr:
+        if i == target:
+            answer += 1
     
     return answer
